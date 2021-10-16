@@ -1,8 +1,13 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const generateHTML = require('./generateHTML');
+const Engineer = require('./lib/engineer');
+const Manager = require('./lib/manager');
+const Intern = require('./lib/intern');
 
-//   questions inquirer will ask all Employees - name, id, email, 
+const allEmployees = [];
+
+//   questions inquirer will ask 
 const employeeQuestions = [
     {
     type: 'input',
@@ -45,15 +50,34 @@ const employeeQuestions = [
     }
 ];
 
-// TODO: Create a function to write HTML file
+// function to push all answer into allAnswers array
+function pushAnswers(input) {
+    switch (input.employeeType) {
+        case "Manager" : {
+        allEmployees.push(new Manager(input.name, input.id, input.email, input.office));
+        break;
+        }
+        case "Engineer" : {
+        allEmployees.push(new Engineer(input.name, input.id, input.email, input.github));
+        break;
+        }
+        case "Intern" : {
+        allEmployees.push(new Intern(input.name, input.id, input.email, input.school));
+        break;
+        }
+    }
+}
+
+// function to write HTML file
 function writeToFile(fileName, data) {
     fs.writeFileSync(fileName, generateHTML(data))
 }
 
-// TODO: Create a function to initialize app
+// function to initialize app
 function init() {
     inquirer.prompt(employeeQuestions)
     .then((userResponse) => {
+        pushAnswers(userResponse);
         writeToFile("./output/generatedHTML", userResponse)
     })
 };
