@@ -1,5 +1,4 @@
-function generateCSS() {
-    return `
+
     .jumbotron {
         background-color: rgb(0, 0, 160);
         color: white;
@@ -19,7 +18,4 @@ function generateCSS() {
     .sub {
         font-size: 20px;
     }
-    `
-}
-
-module.exports = generateCSS;
+    
